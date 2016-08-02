@@ -71,3 +71,9 @@ calls equals method on key object for each Entry object. All these Entry objects
 <b>equals()</b> method will test for true equality. If <b>key.equals(k)</b> will be true then both keys are treated as same key object. This will
 cause the replacing of value object inside Entry object only.
 In this way, HashMap ensure the uniqueness of keys.</p>
+
+<b>How get() methods works internally?</b><br>
+<b>Answer:</b> we already should know that the way key uniqueness is determined in put() method , same logic is applied in get()
+method also. The moment HashMap identify exact match for the key object passed as argument, it simply returns the value
+object stored in current Entry object.
+If no match is found, get() method returns null.

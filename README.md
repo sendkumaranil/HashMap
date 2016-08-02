@@ -77,3 +77,13 @@ In this way, HashMap ensure the uniqueness of keys.</p>
 method also. The moment HashMap identify exact match for the key object passed as argument, it simply returns the value
 object stored in current Entry object.
 If no match is found, get() method returns null.
+
+<br>
+<b>What is the importance of hashCode() and equals() methods?</b>
+
+<p>HashMap uses Key object hashCode() and equals() method to determine the index to put the key-value pair. These methods are also used when we try to get value from HashMap. If these methods are not implemented correctly, two different Key’s might produce same hashCode() and equals() output and in that case rather than storing it at different location, HashMap will consider them same and overwrite them.</p>
+
+<p>Similarly all the collection classes that doesn’t store duplicate data use hashCode() and equals() to find duplicates, so it’s very important to implement them correctly. The implementation of equals() and hashCode() should follow these rules.</p>
+
+    If o1.equals(o2), then o1.hashCode() == o2.hashCode()should always be true.
+    If o1.hashCode() == o2.hashCode is true, it doesn’t mean that o1.equals(o2) will be true.

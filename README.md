@@ -27,3 +27,6 @@ When you create HashMap with default constructor
 
 Array is gets created with <b>size 16</b> and default <b>0.75 load balance</b>.<br>
 
+<b>HashMap with diagram in java</b>
+
+![alt tag](https://github.com/sendkumaranil/HashMap/blob/master/Hash_Map3.jpg)

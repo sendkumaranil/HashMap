@@ -98,3 +98,68 @@ If no match is found, get() method returns null.
 <li>Best practice for user defined key class is to make it immutable, so that hashCode() value can be cached for fast performance.
 Also immutable classes make sure that hashCode() and equals() will not change in future that will solve any issue with mutability.</li>
 </ul>
+<b>When map is decided to resize?</b>
+<p>When the size of map reached to its threashhold then it decided to rehash or resize</p>
+ <p>how to calculate threashold</p>
+ 
+ public HashMap() {
+		 this.loadFactor = DEFAULT_LOAD_FACTOR;
+         threshold = (int)(DEFAULT_INITIAL_CAPACITY * DEFAULT_LOAD_FACTOR);
+         table = new Entry[DEFAULT_INITIAL_CAPACITY];
+         init();
+}
+
+where default value of DEFAULT_LOAD_FACTOR=0.75 and DEFAULT_INITIAL_CAPACITY is 16.
+So when map size will reach 12 then this will decide to resize of map.
+see below new entry of element in map code implementation:
+
+void addEntry(int hash, K key, V value, int bucketIndex) {
+			Entry<K,V> e = table[bucketIndex];
+			table[bucketIndex] = new Entry<K,V>(hash, key, value, e);
+			if (size++ >= threshold)
+				resize(2 * table.length);
+}
+
+<b>Resize</b>
+Rehashes the contents of this map into a new array with a larger capacity. 
+This method is called automatically when the number of keys in this map reaches its threshold. 
+If current capacity is MAXIMUM_CAPACITY, this method does not resize the map, but sets threshold to Integer.MAX_VALUE. 
+This has the effect of preventing future calls.
+
+Parameters:
+newCapacity the new capacity, MUST be a power of two; 
+must be greater than current capacity unless current capacity is MAXIMUM_CAPACITY (in which case value is irrelevant).
+
+   void resize(int newCapacity) {
+         Entry[] oldTable = table;
+         int oldCapacity = oldTable.length;
+         if (oldCapacity == MAXIMUM_CAPACITY) {
+             threshold = Integer.MAX_VALUE;
+             return;
+         } 
+         Entry[] newTable = new Entry[newCapacity];
+         transfer(newTable);
+         table = newTable;
+         threshold = (int)(newCapacity * loadFactor);
+     }
+	 
+	 Transfers all entries from current table to newTable.
+	 
+	void transfer(Entry[] newTable) {
+		Entry[] src = table;
+        int newCapacity = newTable.length;
+        for (int j = 0; j < src.length; j++) {
+             Entry<K,V> e = src[j];
+             if (e != null) {
+                 src[j] = null;
+                 do {
+                     Entry<K,V> next = e.next;
+                     int i = indexFor(e.hash, newCapacity);
+                     e.next = newTable[i];
+                     newTable[i] = e;
+                     e = next;
+                 } while (e != null);
+             }
+         }
+    }
+
